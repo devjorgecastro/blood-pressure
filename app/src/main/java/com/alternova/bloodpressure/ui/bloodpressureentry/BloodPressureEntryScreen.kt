@@ -1,10 +1,11 @@
-@file:OptIn(ExperimentalSharedTransitionApi::class)
+@file:OptIn(ExperimentalSharedTransitionApi::class, ExperimentalMaterial3Api::class)
 
 package com.alternova.bloodpressure.ui.bloodpressureentry
 
 import androidx.compose.animation.AnimatedVisibilityScope
 import androidx.compose.animation.ExperimentalSharedTransitionApi
 import androidx.compose.animation.SharedTransitionScope
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -12,10 +13,15 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.Button
+import androidx.compose.material3.CenterAlignedTopAppBar
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
+import androidx.compose.material3.TopAppBar
+import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -23,6 +29,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.tooling.preview.PreviewLightDark
@@ -41,6 +48,7 @@ fun SharedTransitionScope.BloodPressureEntryScreen(
         onSystolicPressureChange = viewModel::onSystolicPressureChange,
         onDiastolicPressureChange = viewModel::onDiastolicPressureChange,
         onSaveBloodPressure = viewModel::onSaveMeasurement,
+        onBack = viewModel::onBack,
         modifier = Modifier
             .fillMaxSize()
             .sharedBounds(
@@ -57,7 +65,8 @@ private fun BloodPressureEntryScreen(
     modifier: Modifier = Modifier,
     onSystolicPressureChange: (Int) -> Unit = {},
     onDiastolicPressureChange: (Int) -> Unit = {},
-    onSaveBloodPressure: () -> Unit = {}
+    onSaveBloodPressure: () -> Unit = {},
+    onBack: () -> Unit = {}
 ) {
 
     var systolicPressure by remember { mutableStateOf("") }
@@ -68,6 +77,28 @@ private fun BloodPressureEntryScreen(
     ) {
 
         Scaffold(
+            topBar = {
+                CenterAlignedTopAppBar(
+                    colors = TopAppBarDefaults.topAppBarColors(
+                        containerColor = MaterialTheme.colorScheme.bloodPressureContainerColor,
+                        titleContentColor = MaterialTheme.colorScheme.primary,
+                    ),
+                    navigationIcon = {
+                        Icon(
+                            painter = painterResource(R.drawable.baseline_arrow_back_24),
+                            contentDescription = null,
+                            tint = MaterialTheme.colorScheme.primary,
+                            modifier = Modifier
+                                .clickable { onBack() }
+                        )
+                    },
+                    title = {
+                        Text(
+                            text = stringResource(R.string.enter_your_blood_pressure)
+                        )
+                    }
+                )
+            },
             containerColor = MaterialTheme.colorScheme.bloodPressureContainerColor
         ) { innerPadding ->
             Box(
@@ -114,7 +145,7 @@ private fun BloodPressureEntryScreen(
                     Button(
                         onClick = { onSaveBloodPressure() }
                     ) {
-                        Text("Save")
+                        Text(text = stringResource(R.string.label_save))
                     }
                 }
             }

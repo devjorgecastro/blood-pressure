@@ -9,4 +9,6 @@
     <string name="no_measurements_yet">There are no measurements yet!</string>
     <string name="label_systolic_pressure">Systolic pressure</string>
     <string name="label_diastolic_pressure">Diastolic pressure</string>
+    <string name="enter_your_blood_pressure">Enter Your Blood Pressure</string>
+    <string name="label_save">Save</string>
 </resources>

@@ -2,7 +2,6 @@ package com.alternova.bloodpressure.ui.bloodpressureentry
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.alternova.bloodpressure.domain.model.BloodPressureMeasurement
 import com.alternova.bloodpressure.domain.model.MeasurementState
 import com.alternova.bloodpressure.domain.usecase.SaveMeasurementUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -12,8 +11,6 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
-import java.time.LocalDateTime
-import java.time.format.DateTimeFormatter
 import javax.inject.Inject
 
 sealed interface BloodPressureEntryContract {
@@ -25,6 +22,7 @@ sealed interface BloodPressureEntryContract {
 
     sealed interface NavEffect {
         data object NavToBloodPressureList : NavEffect
+        data object NavToBack : NavEffect
     }
 }
 
@@ -55,6 +53,12 @@ class BloodPressureEntryViewModel @Inject constructor(
                 measurementState = MeasurementState.Rest
             )
             mutableNavEffect.send(BloodPressureEntryContract.NavEffect.NavToBloodPressureList)
+        }
+    }
+
+    fun onBack() {
+        viewModelScope.launch {
+            mutableNavEffect.send(BloodPressureEntryContract.NavEffect.NavToBack)
         }
     }
 }

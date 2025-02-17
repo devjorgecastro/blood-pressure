@@ -81,6 +81,7 @@ private fun NavGraphBuilder.bloodPressureEntryScreen(
                 BloodPressureEntryContract.NavEffect.NavToBloodPressureList -> {
                     navController.popBackStack()
                 }
+                BloodPressureEntryContract.NavEffect.NavToBack -> navController.popBackStack()
             }
         }
         
