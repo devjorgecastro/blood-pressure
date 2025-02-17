@@ -31,10 +31,14 @@ import com.alternova.bloodpressure.ui.theme.bloodPressureContainerColor
 
 @Composable
 fun SharedTransitionScope.BloodPressureEntryScreen(
+    viewModel: BloodPressureEntryViewModel,
     animatedVisibilityScope: AnimatedVisibilityScope
 ) {
 
     BloodPressureEntryScreen(
+        onSystolicPressureChange = viewModel::onSystolicPressureChange,
+        onDiastolicPressureChange = viewModel::onDiastolicPressureChange,
+        onSaveBloodPressure = viewModel::onSaveMeasurement,
         modifier = Modifier
             .fillMaxSize()
             .sharedBounds(
@@ -48,7 +52,10 @@ fun SharedTransitionScope.BloodPressureEntryScreen(
 
 @Composable
 private fun BloodPressureEntryScreen(
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    onSystolicPressureChange: (Int) -> Unit = {},
+    onDiastolicPressureChange: (Int) -> Unit = {},
+    onSaveBloodPressure: () -> Unit = {}
 ) {
 
     var systolicPressure by remember { mutableStateOf("") }
@@ -57,74 +64,61 @@ private fun BloodPressureEntryScreen(
         modifier = modifier,
         contentAlignment = Alignment.Center
     ) {
-        BloodPressureInput(
-            systolicValue = systolicPressure,
-            onSystolicValueChange = { systolicPressure = it },
-            diastolicValue = diastolicPressure,
-            onDiastolicValueChange = { diastolicPressure = it }
-        )
-    }
-}
 
-@Composable
-fun BloodPressureInput(
-    systolicValue: String,
-    onSystolicValueChange: (String) -> Unit,
-    diastolicValue: String,
-    onDiastolicValueChange: (String) -> Unit
-) {
-    Scaffold(
-        containerColor = MaterialTheme.colorScheme.bloodPressureContainerColor
-    ) { innerPadding ->
-        Box(
-            contentAlignment = Alignment.Center,
-            modifier = Modifier
-                .fillMaxSize()
-        ) {
-            Column(
+        Scaffold(
+            containerColor = MaterialTheme.colorScheme.bloodPressureContainerColor
+        ) { innerPadding ->
+            Box(
+                contentAlignment = Alignment.Center,
                 modifier = Modifier
-                    .padding(innerPadding)
-                    .padding(16.dp),
-                verticalArrangement = Arrangement.spacedBy(16.dp),
+                    .fillMaxSize()
             ) {
-                // TextField for systolic pressure
-                OutlinedTextField(
-                    value = systolicValue,
-                    onValueChange = { newValue ->
-                        if (newValue.isEmpty() || newValue.all { it.isDigit() }) {
-                            onSystolicValueChange(newValue)
-                        }
-                    },
-                    label = { Text("Systolic pressure") },
-                    suffix = { Text("mmHg") },
-                    keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
-                    singleLine = true
-                )
-
-                // TextField for diastolic pressure
-                OutlinedTextField(
-                    value = diastolicValue,
-                    onValueChange = { newValue ->
-                        if (newValue.isEmpty() || newValue.all { it.isDigit() }) {
-                            onDiastolicValueChange(newValue)
-                        }
-                    },
-                    label = { Text("Diastolic pressure") },
-                    suffix = { Text("mmHg") },
-                    keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
-                    singleLine = true
-                )
-
-                Button(
-                    onClick = {}
+                Column(
+                    modifier = Modifier
+                        .padding(innerPadding)
+                        .padding(16.dp),
+                    verticalArrangement = Arrangement.spacedBy(16.dp),
                 ) {
-                    Text("Save")
+                    // TextField for systolic pressure
+                    OutlinedTextField(
+                        value = systolicPressure,
+                        onValueChange = { newValue ->
+                            if (newValue.isEmpty() || newValue.all { it.isDigit() }) {
+                                systolicPressure = newValue
+                                onSystolicPressureChange(newValue.toIntOrNull() ?: 0)
+                            }
+                        },
+                        label = { Text("Systolic pressure") },
+                        suffix = { Text("mmHg") },
+                        keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
+                        singleLine = true
+                    )
+
+                    // TextField for diastolic pressure
+                    OutlinedTextField(
+                        value = diastolicPressure,
+                        onValueChange = { newValue ->
+                            if (newValue.isEmpty() || newValue.all { it.isDigit() }) {
+                                diastolicPressure = newValue
+                                onDiastolicPressureChange(newValue.toIntOrNull() ?: 0)
+                            }
+                        },
+                        label = { Text("Diastolic pressure") },
+                        suffix = { Text("mmHg") },
+                        keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
+                        singleLine = true
+                    )
+
+                    Button(
+                        onClick = { onSaveBloodPressure() }
+                    ) {
+                        Text("Save")
+                    }
                 }
             }
         }
     }
 }
-
 
 @PreviewLightDark
 @Composable

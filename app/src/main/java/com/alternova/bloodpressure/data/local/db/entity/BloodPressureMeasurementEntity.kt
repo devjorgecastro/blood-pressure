@@ -10,21 +10,21 @@ data class BloodPressureMeasurementEntity(
     @PrimaryKey(autoGenerate = true) val id: Int = 0,
     val systolic: Int,
     val diastolic: Int,
-    val dateTime: Long,
+    val date: String,
     val state: String
 )
 
 fun BloodPressureMeasurement.toEntity() = BloodPressureMeasurementEntity(
     systolic = this.systolic,
     diastolic = this.diastolic,
-    dateTime = this.dateTime,
+    date = this.date,
     state = this.state::class.simpleName ?: ""
 )
 
 fun BloodPressureMeasurementEntity.toDomain() = BloodPressureMeasurement(
     systolic = this.systolic,
     diastolic = this.diastolic,
-    dateTime = this.dateTime,
+    date = this.date,
     state = when (this.state) {
         "Rest" -> MeasurementState.Rest
         "LightActivity" -> MeasurementState.LightActivity

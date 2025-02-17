@@ -12,6 +12,6 @@ interface MeasurementDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insert(measurement: BloodPressureMeasurementEntity)
 
-    @Query("SELECT * FROM BloodPressureMeasurementEntity ORDER BY dateTime DESC")
+    @Query("SELECT * FROM BloodPressureMeasurementEntity ORDER BY date DESC")
     fun getAll(): Flow<List<BloodPressureMeasurementEntity>>
 }

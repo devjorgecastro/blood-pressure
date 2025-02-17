@@ -13,9 +13,11 @@ import androidx.compose.ui.Modifier
 import androidx.navigation.compose.rememberNavController
 import com.alternova.bloodpressure.ui.nav.AppNavHost
 import com.alternova.bloodpressure.ui.theme.BloodPressureTheme
+import dagger.hilt.android.AndroidEntryPoint
 
 const val FAB_EXPLODE_BOUNDS_KEY = "FAB_EXPLODE_BOUNDS_KEY"
 
+@AndroidEntryPoint
 class MainActivity : ComponentActivity() {
 
     @OptIn(ExperimentalSharedTransitionApi::class)
