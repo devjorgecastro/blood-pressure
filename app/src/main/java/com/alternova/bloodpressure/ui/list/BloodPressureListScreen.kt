@@ -3,38 +3,51 @@
 package com.alternova.bloodpressure.ui.list
 
 import androidx.compose.animation.AnimatedVisibilityScope
-import androidx.compose.animation.EnterExitState
 import androidx.compose.animation.ExperimentalSharedTransitionApi
-import androidx.compose.animation.SharedTransitionLayout
 import androidx.compose.animation.SharedTransitionScope
-import androidx.compose.animation.core.Transition
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
-import androidx.compose.material3.Button
 import androidx.compose.material3.ExtendedFloatingActionButton
 import androidx.compose.material3.FabPosition
 import androidx.compose.material3.Icon
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.tooling.preview.PreviewLightDark
 import androidx.constraintlayout.compose.ConstraintLayout
 import com.alternova.bloodpressure.FAB_EXPLODE_BOUNDS_KEY
 import com.alternova.bloodpressure.R
-
-
+import com.alternova.bloodpressure.ui.theme.BloodPressureTheme
 
 @Composable
 fun SharedTransitionScope.BloodPressureListScreen(
     animatedVisibilityScope: AnimatedVisibilityScope,
     onNewBloodPressureClick: () -> Unit = {}
 ) {
+    BloodPressureListScreen(
+        onNewBloodPressureClick = onNewBloodPressureClick,
+        modifier = Modifier
+            .sharedBounds(
+                sharedContentState = rememberSharedContentState(
+                    key = FAB_EXPLODE_BOUNDS_KEY
+                ),
+                animatedVisibilityScope = animatedVisibilityScope
+            )
+    )
+}
 
+@Composable
+private fun BloodPressureListScreen(
+    modifier: Modifier = Modifier,
+    onNewBloodPressureClick: () -> Unit = {}
+) {
     //val expandedFab by remember { derivedStateOf { listState.firstVisibleItemIndex == 0 } }
     Scaffold(
         floatingActionButton = {
@@ -43,22 +56,20 @@ fun SharedTransitionScope.BloodPressureListScreen(
                 expanded = false,
                 icon = { Icon(Icons.Filled.Add, "Localized Description") },
                 text = { Text(text = "Add Blood Pressure") },
-                modifier = Modifier
-                    .sharedBounds(
-                        sharedContentState = rememberSharedContentState(
-                            key = FAB_EXPLODE_BOUNDS_KEY
-                        ),
-                        animatedVisibilityScope = animatedVisibilityScope
-                    )
+                containerColor = MaterialTheme.colorScheme.primaryContainer,
+                modifier = modifier
             )
         },
         floatingActionButtonPosition = FabPosition.End,
+        containerColor = MaterialTheme.colorScheme.surface,
         modifier = Modifier.fillMaxSize()
     ) { innerPadding ->
         ConstraintLayout(
             modifier = Modifier
                 .padding(innerPadding)
                 .fillMaxSize()
+                .background(MaterialTheme.colorScheme.surface)
+
         ) {
             val (imageRef) = createRefs()
             Image(
@@ -77,10 +88,12 @@ fun SharedTransitionScope.BloodPressureListScreen(
     }
 }
 
-@Preview(showBackground = true, showSystemUi = true)
+@PreviewLightDark
 @Composable
 fun BloodPressureListScreenPreview() {
-    SharedTransitionLayout {
+    BloodPressureTheme(
+        dynamicColor = false
+    ) {
         BloodPressureListScreen()
     }
 }

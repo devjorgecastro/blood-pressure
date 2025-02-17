@@ -23,7 +23,9 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContent {
-            BloodPressureTheme {
+            BloodPressureTheme(
+                dynamicColor = false
+            ) {
                 val navHostController = rememberNavController()
                 SharedTransitionLayout {
                     AppNavHost(
