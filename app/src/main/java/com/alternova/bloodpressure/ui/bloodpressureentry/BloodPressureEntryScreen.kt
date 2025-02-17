@@ -23,10 +23,12 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.tooling.preview.PreviewLightDark
 import androidx.compose.ui.unit.dp
 import com.alternova.bloodpressure.FAB_EXPLODE_BOUNDS_KEY
+import com.alternova.bloodpressure.R
 import com.alternova.bloodpressure.ui.theme.bloodPressureContainerColor
 
 @Composable
@@ -88,7 +90,7 @@ private fun BloodPressureEntryScreen(
                                 onSystolicPressureChange(newValue.toIntOrNull() ?: 0)
                             }
                         },
-                        label = { Text("Systolic pressure") },
+                        label = { Text(text = stringResource(R.string.label_systolic_pressure)) },
                         suffix = { Text("mmHg") },
                         keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
                         singleLine = true
@@ -103,7 +105,7 @@ private fun BloodPressureEntryScreen(
                                 onDiastolicPressureChange(newValue.toIntOrNull() ?: 0)
                             }
                         },
-                        label = { Text("Diastolic pressure") },
+                        label = { Text(text = stringResource(R.string.label_diastolic_pressure)) },
                         suffix = { Text("mmHg") },
                         keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
                         singleLine = true

@@ -90,7 +90,7 @@ private val DarkColorScheme = darkColorScheme(
 
 val ColorScheme.bloodPressureContainerColor: Color
     @Composable
-    get() = if (isSystemInDarkTheme()) Color(0xFFFFEFEB) else Color(0xFFFFEFEB)
+    get() = if (isSystemInDarkTheme()) MaterialTheme.colorScheme.surfaceContainer else Color(0xFFFFEFEB)
 
 @Composable
 fun BloodPressureTheme(

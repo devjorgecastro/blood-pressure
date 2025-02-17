@@ -7,4 +7,6 @@
     <string name="blood_pressure_elevated_pressure">Elevated Pressure</string>
     <string name="blood_pressure_normal_pressure">Normal Pressure</string>
     <string name="no_measurements_yet">There are no measurements yet!</string>
+    <string name="label_systolic_pressure">Systolic pressure</string>
+    <string name="label_diastolic_pressure">Diastolic pressure</string>
 </resources>
