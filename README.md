@@ -1,7 +1,7 @@
 # Alternova Android Test 🌟
 This is a technical test for the selection process for an Android Engineer in [Alternova](https://alternova.com/)
 
-<br /><br />
+<br />
 
 ## Setup
 
