@@ -39,6 +39,12 @@ android {
     buildFeatures {
         compose = true
     }
+    testOptions {
+        unitTests.isReturnDefaultValues = true
+        unitTests.all {
+            it.useJUnitPlatform()
+        }
+    }
 }
 
 dependencies {
@@ -56,6 +62,10 @@ dependencies {
     androidTestImplementation(libs.androidx.espresso.core)
     androidTestImplementation(platform(libs.androidx.compose.bom))
     androidTestImplementation(libs.androidx.ui.test.junit4)
+    testImplementation(libs.junit5.jupiter.api)
+    testRuntimeOnly(libs.junit5.jupiter.engine)
+    testImplementation(libs.mockk)
+    androidTestImplementation(libs.hilt.android.testing)
     debugImplementation(libs.androidx.ui.tooling)
     debugImplementation(libs.androidx.ui.test.manifest)
 
@@ -65,6 +75,7 @@ dependencies {
 
     // Coroutines
     implementation(libs.kotlin.coroutines.android)
+    testImplementation(libs.kotlin.coroutines.test)
 
     // Hilt
     implementation(libs.com.google.dagger.hilt.android)
