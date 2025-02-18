@@ -30,7 +30,7 @@ open class BaseRepository {
     fun <T> executeFlow(
         dataErrorStrategy: DataSideEffectStrategy,
         strategyDataBlock: (suspend () -> T)? = null,
-        block: () -> Flow<T> // Ojo: ya no es suspend
+        block: () -> Flow<T>
     ): Flow<T> {
         val handleException by lazy { ExceptionResolver() }
         return block()
