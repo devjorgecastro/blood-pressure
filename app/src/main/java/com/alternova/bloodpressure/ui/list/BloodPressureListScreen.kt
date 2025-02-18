@@ -2,6 +2,7 @@
 
 package com.alternova.bloodpressure.ui.list
 
+import android.widget.Toast
 import androidx.compose.animation.AnimatedVisibilityScope
 import androidx.compose.animation.ExperimentalSharedTransitionApi
 import androidx.compose.animation.SharedTransitionScope
@@ -38,9 +39,9 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.PreviewLightDark
 import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.compose.ui.tooling.preview.PreviewParameterProvider
@@ -52,6 +53,7 @@ import androidx.constraintlayout.compose.Dimension
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.alternova.bloodpressure.FAB_EXPLODE_BOUNDS_KEY
 import com.alternova.bloodpressure.R
+import com.alternova.bloodpressure.common.compose.CollectEffect
 import com.alternova.bloodpressure.domain.model.BloodPressureCategory
 import com.alternova.bloodpressure.domain.model.BloodPressureMeasurement
 import com.alternova.bloodpressure.domain.model.MeasurementState
@@ -63,7 +65,17 @@ fun SharedTransitionScope.BloodPressureListScreen(
     animatedVisibilityScope: AnimatedVisibilityScope
 ) {
 
+    val context = LocalContext.current
+    val errorMessage = stringResource(R.string.error_loading_blood_pressure)
     val state = viewModel.state.collectAsStateWithLifecycle()
+
+    CollectEffect(viewModel.effect) {
+        when (it) {
+            BloodPressureListContract.ViewEffect.ShowLoadError -> {
+                Toast.makeText(context, errorMessage, Toast.LENGTH_LONG).show()
+            }
+        }
+    }
 
     BloodPressureListScreen(
         state = state.value,

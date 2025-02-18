@@ -2,6 +2,7 @@
 
 package com.alternova.bloodpressure.ui.bloodpressureentry
 
+import android.widget.Toast
 import androidx.compose.animation.AnimatedVisibilityScope
 import androidx.compose.animation.ExperimentalSharedTransitionApi
 import androidx.compose.animation.SharedTransitionScope
@@ -29,6 +30,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.KeyboardType
@@ -36,6 +38,7 @@ import androidx.compose.ui.tooling.preview.PreviewLightDark
 import androidx.compose.ui.unit.dp
 import com.alternova.bloodpressure.FAB_EXPLODE_BOUNDS_KEY
 import com.alternova.bloodpressure.R
+import com.alternova.bloodpressure.common.compose.CollectEffect
 import com.alternova.bloodpressure.ui.theme.bloodPressureContainerColor
 
 @Composable
@@ -43,6 +46,17 @@ fun SharedTransitionScope.BloodPressureEntryScreen(
     viewModel: BloodPressureEntryViewModel,
     animatedVisibilityScope: AnimatedVisibilityScope
 ) {
+
+    val context = LocalContext.current
+    val errorMessage = stringResource(R.string.error_recording_blood_pressure)
+
+    CollectEffect(viewModel.effect) {
+        when (it) {
+            BloodPressureEntryContract.ViewEffect.ShowLoadError -> {
+                Toast.makeText(context, errorMessage, Toast.LENGTH_LONG).show()
+            }
+        }
+    }
 
     BloodPressureEntryScreen(
         onSystolicPressureChange = viewModel::onSystolicPressureChange,

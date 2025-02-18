@@ -1,9 +1,11 @@
 package com.alternova.bloodpressure.ui.bloodpressureentry
 
+import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.alternova.bloodpressure.domain.model.MeasurementState
 import com.alternova.bloodpressure.domain.usecase.SaveMeasurementUseCase
+import com.alternova.bloodpressure.ui.list.BloodPressureListContract
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -20,6 +22,10 @@ sealed interface BloodPressureEntryContract {
         val diastolicPressure: Int = 0
     )
 
+    sealed interface ViewEffect {
+        data object ShowLoadError: ViewEffect
+    }
+
     sealed interface NavEffect {
         data object NavToBloodPressureList : NavEffect
         data object NavToBack : NavEffect
@@ -34,6 +40,9 @@ class BloodPressureEntryViewModel @Inject constructor(
     private val mutableState = MutableStateFlow(BloodPressureEntryContract.State())
     val state = mutableState.asStateFlow()
 
+    private val mutableEffect: Channel<BloodPressureEntryContract.ViewEffect> = Channel()
+    val effect = mutableEffect.receiveAsFlow()
+
     private val mutableNavEffect: Channel<BloodPressureEntryContract.NavEffect> = Channel()
     val navEffect = mutableNavEffect.receiveAsFlow()
 
@@ -47,12 +56,20 @@ class BloodPressureEntryViewModel @Inject constructor(
 
     fun onSaveMeasurement() {
         viewModelScope.launch {
-            saveMeasurementUseCase.invoke(
-                systolicPressure = state.value.systolicPressure,
-                diastolicPressure = state.value.diastolicPressure,
-                measurementState = MeasurementState.Rest
-            )
-            mutableNavEffect.send(BloodPressureEntryContract.NavEffect.NavToBloodPressureList)
+            runCatching {
+                saveMeasurementUseCase.invoke(
+                    systolicPressure = state.value.systolicPressure,
+                    diastolicPressure = state.value.diastolicPressure,
+                    measurementState = MeasurementState.Rest
+                )
+            }
+            .onSuccess {
+                mutableNavEffect.send(BloodPressureEntryContract.NavEffect.NavToBloodPressureList)
+            }
+            .onFailure {
+                Log.d("Error Type", it.javaClass.name)
+                mutableEffect.send(BloodPressureEntryContract.ViewEffect.ShowLoadError)
+            }
         }
     }
 
