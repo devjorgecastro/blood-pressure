@@ -5,6 +5,8 @@ This is a technical test for the selection process for an Android Engineer in [A
 
 ## Setup
 
+* Clonar el Repositorio desde la rama `develop`
+
 If the Android SDK is not detected when compiling the project, then you need to add the path to the local.properties file (create it if it doesn't exist)
 Example:
 ```
