@@ -33,7 +33,7 @@ sdk.dir=/Users/user/Library/Android/sdk
 
 ## Project Architecture
 Following the guidelines proposed by the Android team to date, I have decided to carry out the test applying an architecture that allows us to have a separation to the point of having high cohesion and low coupling. Below you can see a general representation of how the application layers and the main components of the communication between them are separated.
-<img src="https://shorturl.at/d44JW" width="900" />
+<img src="https://github.com/devjorgecastro/yape-android-test/blob/develop/repo-assets/clean-architecture.png" width="900" />
 
 #### Some Patterns
 * MVVM
