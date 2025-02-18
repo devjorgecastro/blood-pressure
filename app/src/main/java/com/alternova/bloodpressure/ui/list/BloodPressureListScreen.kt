@@ -217,6 +217,10 @@ private fun BloodPressureListItem(item: BloodPressureMeasurement) {
             Text(
                 text = "State: ${item.state.description}"
             )
+
+            Text(
+                text = "Date: ${item.date}"
+            )
         }
     }
 }
