@@ -292,13 +292,13 @@ private class BloodPressureMeasurementParameterProvider : PreviewParameterProvid
             BloodPressureMeasurement(
                 systolic = 120,
                 diastolic = 80,
-                date = "14/02/2024 15:30",
+                date = "14-02-2024 15:30:12",
                 state = MeasurementState.Rest
             ),
             BloodPressureMeasurement(
                 systolic = 120,
                 diastolic = 130,
-                date = "14/02/2024 15:30",
+                date = "14-02-2024 15:30:32",
                 state = MeasurementState.Rest
             )
         ),

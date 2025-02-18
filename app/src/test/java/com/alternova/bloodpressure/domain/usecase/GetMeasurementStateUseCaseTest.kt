@@ -18,7 +18,7 @@ class GetMeasurementStateUseCaseTest {
     }
 
     @Test
-    fun `Given a measurement data, When user wants to save, Then it should be saved`() = runTest {
+    fun `Display Measurement States`() = runTest {
         val response = usecase()
 
         assert(response.isNotEmpty())
