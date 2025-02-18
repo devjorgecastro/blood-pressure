@@ -213,6 +213,10 @@ private fun BloodPressureListItem(item: BloodPressureMeasurement) {
             Text(
                 text = "Diastolic: ${item.diastolic} mmHg"
             )
+
+            Text(
+                text = "State: ${item.state.description}"
+            )
         }
     }
 }

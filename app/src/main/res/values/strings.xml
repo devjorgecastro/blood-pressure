@@ -13,4 +13,5 @@
     <string name="label_save">Save</string>
     <string name="error_recording_blood_pressure">Error trying to record blood pressure</string>
     <string name="error_loading_blood_pressure">Error loading blood pressure measurements</string>
+    <string name="label_state">State</string>
 </resources>

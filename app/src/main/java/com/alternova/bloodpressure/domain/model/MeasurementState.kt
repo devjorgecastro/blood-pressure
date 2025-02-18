@@ -1,7 +1,7 @@
 package com.alternova.bloodpressure.domain.model
 
-sealed class MeasurementState {
-    data object Rest : MeasurementState()
-    data object LightActivity : MeasurementState()
-    data object IntenseActivity : MeasurementState()
+sealed class MeasurementState(val description: String) {
+    data object Rest : MeasurementState("Rest")
+    data object LightActivity : MeasurementState("Light Activity")
+    data object IntenseActivity : MeasurementState("Intense Physical Activity")
 }
