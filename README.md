@@ -13,6 +13,8 @@ Example:
 sdk.dir=/Users/user/Library/Android/sdk
 ```
 
+Note: You can simulate an error in the data layer to observe the behavior in the APP by changing the value of the variable `isErrorSimulation = true` in LocalMeasurementRepository
+
 <br /><br />
 
 ## Features
